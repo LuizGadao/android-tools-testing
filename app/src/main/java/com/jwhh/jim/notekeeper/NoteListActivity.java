@@ -13,6 +13,8 @@ import android.widget.ListView;
 
 import java.util.List;
 
+import static android.support.v4.app.ActivityCompat.startActivity;
+
 public class NoteListActivity extends AppCompatActivity {
 
     private ArrayAdapter<NoteInfo> mAdapterNotes;

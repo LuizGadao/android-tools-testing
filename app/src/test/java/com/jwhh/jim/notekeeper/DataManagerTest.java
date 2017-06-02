@@ -1,6 +1,7 @@
 package com.jwhh.jim.notekeeper;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -9,11 +10,16 @@ import static org.junit.Assert.assertEquals;
  * Created by Luiz on 02/06/17.
  */
 public class DataManagerTest {
-    private DataManager mDataManager;
+    private static DataManager mDataManager;
+
+    @BeforeClass
+    public static void setUpClass(){
+        mDataManager = DataManager.getInstance();
+    }
+
 
     @Before
     public void setUp() throws Exception {
-        mDataManager = DataManager.getInstance();
         mDataManager.getNotes().clear();
         mDataManager.initializeExampleNotes();
     }
@@ -57,6 +63,21 @@ public class DataManagerTest {
 
         assertEquals(mNoteIndex, mDataManager.findNote(mNewNote));
         assertEquals(mNoteIndex2, mDataManager.findNote(mSecondNote));
+    }
+
+    @Test
+    public void createNewNoteOneStep(){
+        CourseInfo mCourse = mDataManager.getCourse("android_async");
+        String mNoteTitle = "Test note title";
+        String mNoteText = "This is the body text of my test note";
+
+        int mNoteIndex = mDataManager.createNewNote(mCourse, mNoteTitle, mNoteText);
+
+        NoteInfo mCompareNote = mDataManager.getNotes().get(mNoteIndex);
+        assertEquals(mCompareNote.getCourse(), mCourse);
+        assertEquals(mCompareNote.getTitle(), mNoteTitle);
+        assertEquals(mCompareNote.getText(), mNoteText);
+
     }
 
 }
